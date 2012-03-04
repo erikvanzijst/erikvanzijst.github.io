@@ -142,3 +142,18 @@ be possible for these remote tabs to load custom javascript that has access to
 the user's cookie to make uncontrolled, authenticated calls to Bitbucket on
 behalf of the user.
 
+### Profile Apps
+
+These are much like repository apps with the distinction that they apply to a
+user's profile page. A user can enable these apps on his own profile.
+
+As with repository apps, apps that add custom tabs to the user's profile page
+will be visible to every user visiting that profile.
+
+Examples of profile functionality that could be implemented through remote apps
+include:
+
+* Github or LinkedIn profile page
+* Aggregated statistics of all repos you have contributed to on Bitbucket and
+  other sites
+* Resume page
