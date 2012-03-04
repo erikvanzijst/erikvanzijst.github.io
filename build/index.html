@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>braspec</title>
+        <title>BRA</title>
         <link rel="stylesheet" href="./_dmedia/bootstrap.css"/>
         <link rel="stylesheet" href="./_dmedia/tango.css"/>
         <link rel="stylesheet/less" type="text/css" href="./_dmedia/style.less">
@@ -10,9 +10,8 @@
     </head>
     <body class="index">
         <div class="wrap">
-            <header><h1><a href="">braspec</a></h1></header>
+            <header><h1><a href="">BRA</a></h1></header>
                 <div class="markdown">
-<h1 id="bra-bitbucket-remote-apps">BRA: Bitbucket Remote Apps</h1>
 <p>A remote application is a webapp that is hosted entirely independent from
 Bitbucket, can be built and run by anyone. It integrates with Bitbucket to add
 features and functionality to Bitbucket without requiring the help or
@@ -25,117 +24,7 @@ and adds visual elements to Bitbucket's UI through the inclusion of iframes.</p>
 <li>Programming language and committer activity statistics</li>
 </ul>
 <p>This document describes how remote apps work and what purpose they serve.</p>
-<h2 id="goal-aim-or-target">Goal, Aim, or Target</h2>
-<p>To allow any user to build any kind of addon functionality, be it open or
-closed, to the Bitbucket site. Allow him to host said application on his
-platform of choice, written in any programming language.</p>
-<p>This application can be registered on Bitbucket for anyone discover and use.</p>
-<h2 id="registration-of-new-bras">Registration of New BRAs</h2>
-<p>A BRA is represented by a deployment descriptor. This is an XML file that
-describes all properties of the remote app, including:</p>
-<ul>
-<li>Publisher name and details</li>
-<li>Human readable description</li>
-<li>Every Bitbucket plugin point that is exploited</li>
-<li>Full external URLs to every resource that is linked to (e.g. iframe tabs or
-  static js and css)</li>
-</ul>
-<p>The deployment descriptor file is the only piece of of information that is
-provided to Bitbucket. Below is an example of a descriptor:</p>
-<div class="codehilite"><pre><span class="nt">&lt;app</span> <span class="na">xmlns=</span><span class="s">&quot;http://bitbucket.org/bitbucket-app-1.0.xsd&quot;</span><span class="nt">&gt;</span>
-    <span class="nt">&lt;slug&gt;</span>helloworld<span class="nt">&lt;/slug&gt;</span>
-    <span class="nt">&lt;name&gt;</span>Hello World<span class="nt">&lt;/name&gt;</span>
-    <span class="nt">&lt;description&gt;</span>Add an tab that says Hello World.<span class="nt">&lt;/description&gt;</span>
-    <span class="nt">&lt;developer&gt;</span>Atlassian<span class="nt">&lt;/developer&gt;</span>
-    <span class="nt">&lt;website&gt;</span>https://bitbucket.org/evzijst/bb-hello-world<span class="nt">&lt;/website&gt;</span>
-    <span class="nt">&lt;repo&gt;</span>
-        <span class="nt">&lt;tab</span> <span class="na">key=</span><span class="s">&quot;hwtab1&quot;</span> <span class="na">label=</span><span class="s">&quot;Hello&quot;</span> <span class="na">url=</span><span class="s">&quot;http://empty-ocean-7664.herokuapp.com/hw.html&quot;</span><span class="nt">/&gt;</span>
-    <span class="nt">&lt;/repo&gt;</span>
-<span class="nt">&lt;/app&gt;</span>
-</pre></div>
-
-
-<p>It declares a new tab on the repo page which is populated through an iframe
-running at Heroku.</p>
-<h3 id="deploying">Deploying</h3>
-<p>To deploy this app, create a normal Git or Hg repo that has
-<code>bitbucket-app.xml</code> in the root and push it up to Bitbucket. Bitucket will
-detect this file, validate it and then make the app available to users.</p>
-<p>If the deployment descriptor is invalid, Bitbucket will reject the push and
-send a notification to the owner of the repo to explain the validation error.
-This is to ensure that there can be no partial or invalid remote apps
-deployed.</p>
-<p>The repo hosting the descriptor file must be public, or the app will not be
-deployed. This is to ensure users can have a better understanding of what the
-app will add in terms of plugin points and who its author is.</p>
-<h3 id="enabling">Enabling</h3>
-<p>A remote app is not automatically activated on deployment. It merely becomes
-available to users. A remote app is "installed" or "activated" on a per-repo
-basis (or per profile or user, as described further on) and is then visible to
-everyone visiting the repo page.</p>
-<p>To enable a remote app on a repo, the repo admin clicks "Remote apps" on the
-repo admin tab and then types the name of the app to enable. This page also
-lists all apps that are enabled on the repo and offers the ability to disable
-each one.</p>
-<h3 id="updating">Updating</h3>
-<p>To update a descriptor, simply push the change to the repo. Redeployment takes
-effect immediately.</p>
-<h3 id="bra-removal">BRA Removal</h3>
-<p>To completely remove a remote app from Bitbucket (as opposed to disabling an
-app on a per-repo basis), simply delete the <code>bitbucket-app.xml</code> file from the
-repo, make the repo private, or remove the repo entirely. Removal of an app
-takes effect immediately .</p>
-<h2 id="bra-types-or-scopes">BRA Types or Scopes</h2>
-<p>There are three different resources which each have their own remote apps,
-each corresponding to a type of Bitbucket resource:</p>
-<p>1 Repositories
-2 Profiles
-3 Users</p>
-<h3 id="repository-apps">Repository Apps</h3>
-<p>These are apps that bind to a repository and can use all the plugin points
-available to repos. This currently includes the ability to add new iframed
-tabs and webhooks through which events can be received asynchronously.</p>
-<p>Currently defined events include:</p>
-<ul>
-<li>Commits/pushes to the repo</li>
-<li>Activation of the app on a new repo</li>
-<li>Deactivation of the app on a repo</li>
-</ul>
-<p>The repo app type is represented by the <code>&lt;repo&gt;</code> element in the app descriptor.
-An app descriptor can only contain a single <code>&lt;repo&gt;</code> element.</p>
-<p>To declare a tab, use the following nested element:</p>
-<div class="codehilite"><pre><span class="o">&lt;</span><span class="n">tab</span> <span class="n">key</span><span class="o">=</span><span class="s">&quot;hwtab1&quot;</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;Hello&quot;</span> <span class="n">url</span><span class="o">=</span><span class="s">&quot;http://empty-ocean-7664.herokuapp.com/hw.html&quot;</span><span class="o">/&gt;</span>
-</pre></div>
-
-
-<p>The <code>key</code> attribute needs to be a unique identifier within the descriptor. It
-is used by Bitbucket to uniquely identify which tab is active in cases where
-an app declares more than one.</p>
-<p>The <code>label</code> is the string that is used on the newly created tab. Although
-recommended, it is not enforced to be unique. Note that Bitbucket also does
-not enforce uniqueness of tab labels between apps. This is to not restrict
-apps different apps that each choose to declare their own "search" tab for
-instance.</p>
-<p>The <code>url</code> points to the page that will be loaded in the iframe on the page of
-the tab. This URL MUST NOT be hosted on Bitbucket itself, but on a foreign
-domain. URLs pointing to bitbucket.org will cause the deployment to be
-rejected. The reason for this is javascript's same origin polic. It must not
-be possible for these remote tabs to load custom javascript that has access to
-the user's cookie to make uncontrolled, authenticated calls to Bitbucket on
-behalf of the user.</p>
-<h3 id="profile-apps">Profile Apps</h3>
-<p>These are much like repository apps with the distinction that they apply to a
-user's profile page. A user can enable these apps on his own profile.</p>
-<p>As with repository apps, apps that add custom tabs to the user's profile page
-will be visible to every user visiting that profile.</p>
-<p>Examples of profile functionality that could be implemented through remote apps
-include:</p>
-<ul>
-<li>Github or LinkedIn profile page</li>
-<li>Aggregated statistics of all repos you have contributed to on Bitbucket and
-  other sites</li>
-<li>Resume page</li>
-</ul><h2>Table of Contents</h2><ol class="toc"><li><a href="header/">Header</a></li></ol>
+<div class="toc"></div><h2>Table of Contents</h2><ol class="toc"><li><a href="spec/">BRA: Bitbucket Remote Apps</a></li></ol>
                 </div>
             <footer></footer>
         </div>
