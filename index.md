@@ -12,5 +12,3 @@ Examples of functionality that can be implemented as remote apps include:
 * Programming language and committer activity statistics
 
 This document describes how remote apps work and what purpose they serve.
-
-[TOC]
