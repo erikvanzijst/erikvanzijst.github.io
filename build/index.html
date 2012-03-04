@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>braspec</title>
+        <link rel="stylesheet" href="./_dmedia/bootstrap.css"/>
+        <link rel="stylesheet" href="./_dmedia/tango.css"/>
+        <link rel="stylesheet/less" type="text/css" href="./_dmedia/style.less">
+        <script src="./_dmedia/less.js" type="text/javascript">
+        </script>
+    </head>
+    <body class="index">
+        <div class="wrap">
+            <header><h1><a href="">braspec</a></h1></header>
+                <div class="markdown">
+<h1 id="bra-bitbucket-remote-apps">BRA: Bitbucket Remote Apps</h1>
+<h2 id="anatomy-of-a-bra">Anatomy of a BRA</h2>
+<p>A remote application is a webapp that is hosted entirely independent from
+Bitbucket, can be built and run by anyone. It integrates with Bitbucket to add
+features and functionality to Bitbucket without requiring the help or
+assistance of Bitbucket staff.</p>
+<p>It communicates with Bitbucket through the REST API, authenticates using OAuth
+and adds visual elements to Bitbucket's UI through the inclusion of iframes.</p>
+<h2 id="aim">Aim</h2>
+<p>To allow any user to build any kind of addon functionality, be it open or
+closed, to the Bitbucket site. Allow him to host said application on his
+platform of choice, written in any programming language.</p>
+<p>This application can be registered on Bitbucket for anyone discover and use.</p>
+<h2 id="registration-of-new-bras">Registration of New BRAs</h2>
+<p>A BRA is represented by a deployment descriptor. This is an XML file that
+describes all properties of the remote app, including:</p>
+<ul>
+<li>Publisher name and details</li>
+<li>Human readable description</li>
+<li>Every Bitbucket plugin point that is exploited</li>
+<li>Full external URLs to every resource that is linked to (e.g. iframe tabs or
+  static js and css)</li>
+</ul><h2>Table of Contents</h2><ol class="toc"></ol>
+                </div>
+            <footer></footer>
+        </div>
+    </body>
+</html>
