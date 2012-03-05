@@ -183,12 +183,12 @@ access his account.</p>
 <p>When the OAuth dance is completed and the user authorized the remote app, the
 app should retrieve the user's account name by hitting the REST endpoint:
 <code>https://bitbucket.org/!api/1.0/user</code></p>
-<p>It is recommended that remote apps do implement their own login system and
+<p>It is recommended that remote apps do not implement their own login system and
 user accounts. Instead, they should automatically create user records for the
 users that authorize the app through OAuth. In the user record they create
 after the first successful authorization, they should store the user's access
 token and optionally the Bitbucket username.</p>
-<p>It is also recommended they create a session cookie ad store that with the
+<p>It is also recommended they create a session cookie and store that with the
 account record. Now the user will be properly authenticated on subsequent
 requests.</p>
 <p>Should the user return from another computer that does not have a cookie set,
