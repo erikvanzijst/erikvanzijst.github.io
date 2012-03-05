@@ -147,6 +147,21 @@ Bitbucket to signal the activation or deactivation of an app by a repo admin:
 	<activate url="http://empty-ocean-7664.herokuapp.com/activate"/>
 	<deactivate url="http://empty-ocean-7664.herokuapp.com/deactivate"/>
 
+Again, when the URLs get hit, Bitbucket appends `repo=username/slug` to the
+query string.
+
+Registering these optional hooks allow remote apps to perform initial
+housekeeping such as cloning a repo for indexing, or deleting any leftover
+state after deactivation.
+
+#### Commit Events
+
+A repository app can register a URL on which to receive repository events such
+as commits/pushes, issue tracker activity. This functionality aims to
+supersede the existing Broker or Services mechanism that relies on code
+running inside Bitbucket.
+
+Events can be delivered in either json or xml.
 
 ### Profile Apps
 
@@ -156,12 +171,12 @@ user's profile page. A user can enable these apps on his own profile.
 As with repository apps, apps that add custom tabs to the user's profile page
 will be visible to every user visiting that profile.
 
-Examples of profile functionality that could be implemented through remote apps
-include:
+Examples of profile functionality that could be implemented through remote
+apps include:
 
 * Github or LinkedIn profile page
 * Aggregated statistics of all repos you have contributed to on Bitbucket and
-  other sites
+  other sites, coderwall-style
 * Resume page
 
 Profile apps declare tabs in the same way as repository apps:
@@ -171,4 +186,23 @@ Profile apps declare tabs in the same way as repository apps:
 The URL gets the name of the repository added to the query string:
 `?repo=username/slug`
 
+Activation and deactivation hooks are equal to those of the repository apps.
 
+### User Apps
+
+The final category of apps is those that bind to the user's own session and
+are a bit like Atlassian Speakeasy plugins.
+
+A user app declares one or more static resources such as js and css files that
+are included in each page that is rendered. These resources CAN be served from
+the Bitbucket domain (for instance by having them in a repository and linking
+straight to the raw files).
+
+Since javascript can be served from Bitbucket and are loaded into the pages
+directly, this gives it full access to the user's account and the DOM. They
+can therefore be used to completely change the look and feel of the site.
+
+User apps are enabled by a user on his own account page and only affects the
+user in question. In contrast to profile apps, user apps have no impact at all
+on other users that browse the profile page. Their static resources are
+included only in the pages of the user who enabled the app.

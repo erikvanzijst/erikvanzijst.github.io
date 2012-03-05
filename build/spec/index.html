@@ -112,16 +112,27 @@ Bitbucket to signal the activation or deactivation of an app by a repo admin:</p
 </pre></div>
 
 
+<p>Again, when the URLs get hit, Bitbucket appends <code>repo=username/slug</code> to the
+query string.</p>
+<p>Registering these optional hooks allow remote apps to perform initial
+housekeeping such as cloning a repo for indexing, or deleting any leftover
+state after deactivation.</p>
+<h4 id="commit-events">Commit Events</h4>
+<p>A repository app can register a URL on which to receive repository events such
+as commits/pushes, issue tracker activity. This functionality aims to
+supersede the existing Broker or Services mechanism that relies on code
+running inside Bitbucket.</p>
+<p>Events can be delivered in either json or xml.</p>
 <h3 id="profile-apps">Profile Apps</h3>
 <p>These are much like repository apps with the distinction that they apply to a
 user's profile page. A user can enable these apps on his own profile.</p>
 <p>As with repository apps, apps that add custom tabs to the user's profile page
 will be visible to every user visiting that profile.</p>
-<p>Examples of profile functionality that could be implemented through remote apps
-include:</p>
+<p>Examples of profile functionality that could be implemented through remote
+apps include:</p>
 <ul><li>Github or LinkedIn profile page</li>
 <li>Aggregated statistics of all repos you have contributed to on Bitbucket and
-  other sites</li>
+  other sites, coderwall-style</li>
 <li>Resume page</li>
 </ul><p>Profile apps declare tabs in the same way as repository apps:</p>
 <div class="codehilite"><pre><span class="o">&lt;</span><span class="n">tab</span> <span class="n">key</span><span class="o">=</span><span class="s">"statstab"</span> <span class="n">label</span><span class="o">=</span><span class="s">"Karma"</span> <span class="n">url</span><span class="o">=</span><span class="s">"http://empty-ocean-7664.herokuapp.com/stats.html"</span><span class="o">/&gt;</span>
@@ -130,6 +141,21 @@ include:</p>
 
 <p>The URL gets the name of the repository added to the query string:
 <code>?repo=username/slug</code></p>
+<p>Activation and deactivation hooks are equal to those of the repository apps.</p>
+<h3 id="user-apps">User Apps</h3>
+<p>The final category of apps is those that bind to the user's own session and
+are a bit like Atlassian Speakeasy plugins.</p>
+<p>A user app declares one or more static resources such as js and css files that
+are included in each page that is rendered. These resources CAN be served from
+the Bitbucket domain (for instance by having them in a repository and linking
+straight to the raw files).</p>
+<p>Since javascript can be served from Bitbucket and are loaded into the pages
+directly, this gives it full access to the user's account and the DOM. They
+can therefore be used to completely change the look and feel of the site.</p>
+<p>User apps are enabled by a user on his own account page and only affects the
+user in question. In contrast to profile apps, user apps have no impact at all
+on other users that browse the profile page. Their static resources are
+included only in the pages of the user who enabled the app.</p>
                 </div>
             <footer/></div>
     </body></html>
