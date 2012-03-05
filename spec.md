@@ -202,7 +202,68 @@ Since javascript can be served from Bitbucket and are loaded into the pages
 directly, this gives it full access to the user's account and the DOM. They
 can therefore be used to completely change the look and feel of the site.
 
-User apps are enabled by a user on his own account page and only affects the
-user in question. In contrast to profile apps, user apps have no impact at all
-on other users that browse the profile page. Their static resources are
-included only in the pages of the user who enabled the app.
+Activation of user apps is controlled by a user on his own account page and
+only affects the user in question. In contrast to profile apps, user apps have
+no impact at all on other users that browse the profile page. Their static
+resources are included only in the pages of the user who enabled the app.
+
+Below is an example of a user app declaration, which uses the `<user>`
+element:
+
+	<user>
+        <script url="https://bitbucket.org/evzijst/bb-themes/raw/c57ba59ada03/static/bb.js"/>
+        <css url="https://bitbucket.org/evzijst/bb-themes/raw/c57ba59ada03/static/bb.css"/>
+    </user>
+
+As with the tab URLs in both repo and profile apps, whenever Bitbucket
+includes these resource links in the page, it appends the name of the current
+user to the query string. This allows the remote app to personalize the
+scripts if necessary: `username=username`
+
+Authentication
+--------------
+
+Authentication between remote apps and Bitbucket relies heavily on OAuth
+(3LO).
+
+For iframe tabs, when Bitbucket embeds the URLs for the remote page, it does
+not add anything to the request other than appending the name of the resource
+viewed (e.g. `repo=username/slug`). The request carries nothing that could
+tell the remote app which Bitbucket user is viewing the page.
+
+If the remote app requires knowledge of the current user, it should
+authenticate the user by sending it through the "OAuth dance" during which the
+user is redirected back to Bitbucket and asked to authorize the remote app to
+access his account.
+
+When the OAuth dance is completed and the user authorized the remote app, the
+app should retrieve the user's account name by hitting the REST endpoint:
+`https://bitbucket.org/!api/1.0/user`
+
+It is recommended that remote apps do implement their own login system and
+user accounts. Instead, they should automatically create user records for the
+users that authorize the app through OAuth. In the user record they create
+after the first successful authorization, they should store the user's access
+token and optionally the Bitbucket username.
+
+It is also recommended they create a session cookie ad store that with the
+account record. Now the user will be properly authenticated on subsequent
+requests.
+
+Should the user return from another computer that does not have a cookie set,
+the remote app should send the user through the OAuth dance as normal, lookup
+the username and when an account record for that Bitbucket user already
+exists, it should issue a new cookie (optionally replacing the existing one in
+its database). It should also replace the old access token with the newly
+obtained one.
+
+A remote app should in general always authorize the user against Bitbucket.
+This is because it will often have to protect its data from unauthorized
+access by users who do not have permission to see the Bitbucket resource that
+the app is bound to.
+
+For instance, a remote app that implements full text search for repositories
+will have to make sure it returns a 401 response to users that do not have
+at least read access on the repositories it has indexed. To verify this, it
+should hit the privileges REST endpoint.
+
