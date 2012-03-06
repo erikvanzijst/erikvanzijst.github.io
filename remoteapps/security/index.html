@@ -9,6 +9,14 @@ this.</p>
 <p>To do this, remote apps can provide a standard X.509 certificate along with
 their app descriptor file. This file must be named cert.pem and be placed in
 the root directory of the repository for Bitbucket to discover it.</p>
+<p>The developer then uses the certificate to produce a SHA1 digest of the
+descriptor XML file and then cryptographically signing that with his private
+key that must be stored with filename <code>bitbucket-app.sha1</code>:</p>
+<div class="codehilite"><pre><span class="nv">$</span> <span class="nv">openssl</span> <span class="n">dgst</span> <span class="o">-</span><span class="n">sha1</span> <span class="o">-</span><span class="n">sign</span> <span class="n">privatekey</span><span class="o">.</span><span class="n">pem</span> <span class="o">\</span>
+<span class="o">-</span><span class="n">out</span> <span class="n">bitbucket</span><span class="o">-</span><span class="n">app</span><span class="o">.</span><span class="n">sha1</span> <span class="n">bitbucket</span><span class="o">-</span><span class="n">app</span><span class="o">.</span><span class="n">xml</span>
+</pre></div>
+
+
 <p>This certificate can be self-signed, or signed by an official public signing
 authority. In the latter case, Bitbucket will decorate your remote app entry
 with a visual indication, similar to what browsers do.</p>
