@@ -57,12 +57,23 @@ each one.</p>
 <h3 id="updating">Updating</h3>
 <p>To update a descriptor, simply push the change to the repo. Redeployment takes
 effect immediately.</p>
-<h3 id="bra-removal">BRA Removal</h3>
+<p>Updates to remote apps can bring about significant changes. Profile or repo
+apps could add new tabs to the UI, remove existing screens and functionality,
+or ask for more API privileges, while user apps could be changed to embed
+different javascript files.</p>
+<p>As a result, whenever an app is updated, a notification is sent to:</p>
+<ul><li>the owner and admins of all repositories that have the app installed
+  (applicable only to apps whose descriptor contains a <code>&lt;repo&gt;</code> element)</li>
+<li>all users who have installed the app on their profile page (applicable only
+  to apps whose descriptor contains a <code>&lt;profile&gt;</code> element)</li>
+<li>all users who have installed the app on their session (applicable only to
+  apps whose descriptor contains a <code>&lt;user&gt;</code> element)</li>
+</ul><h3 id="remote-app-removal">Remote App Removal</h3>
 <p>To completely remove a remote app from Bitbucket (as opposed to disabling an
 app on a per-repo basis), simply delete the <code>bitbucket-app.xml</code> file from the
 repo, make the repo private, or remove the repo entirely. Removal of an app
 takes effect immediately .</p>
-<h2 id="bra-types-or-scopes">BRA Types or Scopes</h2>
+<h2 id="remote-app-types">Remote App Types</h2>
 <p>There are three different resources which each have their own remote apps,
 each corresponding to a type of Bitbucket resource:</p>
 <p>1 Repositories
@@ -76,8 +87,8 @@ tabs and webhooks through which events can be received asynchronously.</p>
 <ul><li>Commits/pushes to the repo</li>
 <li>Activation of the app on a new repo</li>
 <li>Deactivation of the app on a repo</li>
-</ul><p>The repo app type is represented by the <code>&lt;repo&gt;</code> element in the app descriptor.
-An app descriptor can only contain a single <code>&lt;repo&gt;</code> element.</p>
+</ul><p>The repo app type is represented by the <code>&lt;repo&gt;</code> element in the app
+descriptor. An app descriptor can only contain a single <code>&lt;repo&gt;</code> element.</p>
 <h4 id="ui-tabs">UI Tabs</h4>
 <p>To declare a tab, use the following nested element:</p>
 <div class="codehilite"><pre><span class="o">&lt;</span><span class="n">tab</span> <span class="n">key</span><span class="o">=</span><span class="s">"hwtab1"</span> <span class="n">label</span><span class="o">=</span><span class="s">"Hello"</span> <span class="n">url</span><span class="o">=</span><span class="s">"http://empty-ocean-7664.herokuapp.com/hw.html"</span><span class="o">/&gt;</span>

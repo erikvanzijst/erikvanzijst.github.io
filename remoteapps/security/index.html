@@ -2,17 +2,32 @@
         </script></head><body class="content">
         <div class="wrap">
             <header><h1><a href="..">Remote Apps</a></h1></header><div class="markdown"><h1><a href="">Security</a></h1>
+<h2 id="app-descriptor-authenticity">App Descriptor Authenticity</h2>
+<p>It is important for users to be able to verify the origins of remote apps. If
+an app claims to be provided by twitter.com, the user must be able to verify
+this.</p>
+<p>To do this, remote apps can provide a standard X.509 certificate along with
+their app descriptor file. This file must be named cert.pem and be placed in
+the root directory of the repository for Bitbucket to discover it.</p>
+<p>This certificate can be self-signed, or signed by an official public signing
+authority. In the latter case, Bitbucket will decorate your remote app entry
+with a visual indication, similar to what browsers do.</p>
+<p>Since remote app descriptors always live in a public repository on Bitbucket,
+accessible to all, users can check to see if the app provided an X.509
+certificate file. If it didn't, then the user knows that it may not have come
+from where it claims and make a more informed decision on whether or not to
+enable or authorize the remote app.</p>
 <h2 id="request-authenticity">Request Authenticity</h2>
 <p>The URLs published in an app descriptor file are accessed either directly by
 Bitbucket, or by a user's browser. The former is the case for example when
 asynchronous events related to a repository or user profile are delivered to
 the remote app, while the latter is the case for custom tabs that contain
 iframes with content from the remote app.</p>
-<p>It is cucial for a remote app to be able to verify that the incoming request
+<p>It is crucial for a remote app to be able to verify that the incoming request
 was initiated by Bitbucket and ignore requests that are not.</p>
 <p>This is important for example for the endpoint that receives repo events.
-Without the ability to verify the authenticity of such incoming requests, anyone
-could push events to the remote app.</p>
+Without the ability to verify the authenticity of such incoming requests,
+anyone could push events to the remote app.</p>
 <p>It is also important for browser requests to iframes (UI tabs), because it
 saves the remote app from having to use the Bitbucket REST API to actively
 check whether the user has at least read access to the repository.</p>
@@ -21,31 +36,49 @@ to that repository and so any request that does come in proves to the remote
 app that the user has sufficient privileges.</p>
 <p>If this wasn't available, a remote app that is enabled on a private repository
 would, for every incoming request, have to hit the Bitbucket REST API to check
-the user's access level on that repository, significantly impacting performance.</p>
-<h3 id="ssl-request-signing">SSL Request Signing</h3>
-<p>Every request made to the remote app that was directly or indirectly initiated by
-Bitbucket gets signed with a cryptographic signature. This is computed by taking
-the SHA-1 hash of all the properties that make up the request and then encrypting
-it with Bitbucket's SSL private key.</p>
-<p>This approach is quite similar to how OAuth 1.0a (RFC-5849) computes signatures.</p>
-<p>For the process to work, both server (Bitbucket) and client (remote app) need
-to agree on how to create a canonical representation of all the request's
-properties. For this, we follow section 3.4.1 (Signature Base String) up to, but
-not including 3.4.2 (HMAC-SHA1).</p>
-<p>To turn this Base String into an actual signature, we follow paragraph 3.4.3
-(RSA-SHA1) of RFC-5849:</p>
-<p>The "RSA-SHA1" signature method uses the RSASSA-PKCS1-v1_5 signature
-algorithm as defined in <a href="http://tools.ietf.org/html/rfc3447">RFC-3447</a>,
-section 8.2 (also known as PKCS#1), using SHA-1 as the hash function
-for EMSA-PKCS1-v1_5.</p>
-<p>The signature base string is signed using Bitbucket's RSA private
-key per RFC-3447, section 8.2.1:</p>
-<p>S = RSASSA-PKCS1-V1_5-SIGN (K, M)</p>
-<p>Where:</p>
-<p>K = Bitbucket's RSA private key
-M = the value of the base string
-S = the result signature</p>
-<h2 id="app-descriptor-authenticity">App Descriptor Authenticity</h2>
+the user's access level on that repository, significantly impacting
+performance.</p>
+<h3 id="outbound-request-signing">Outbound Request Signing</h3>
+<p>Every request made to the remote app that was directly or indirectly initiated
+by Bitbucket gets signed with a cryptographic signature. For this, we use
+standard 2-Legged OAuth (or more accurately: <a href="http://blog.nerdbank.net/2011/06/what-is-2-legged-oauth.html">0-Legged
+OAuth</a>).</p>
+<p>Bitbucket remote apps follows OAuth 1.0 as described in
+<a href="http://tools.ietf.org/html/rfc5849">RFC-5849</a>.</p>
+<p>As the signing method we use RSA-SHA1, for which we use the private key that
+backs Bitbucket's own SSL certificate. The reason for this is that this
+certificate contains our public RSA key and is signed by a reputable signing
+authority.</p>
+<p>Alternatively, it would be possible to also support HMAC-SHA1 using the shared
+secret that was issued to the remote app when it applied for a consumer key.
+In reality however, Bitbucket retains no link between OAuth consumer keys and
+secrets that have been given out and remote apps that have been registered,
+which means it would not know which consumer secret to use.</p>
+<p>It is up to the remote app to check the authenticity of incoming requests.
+Bitbucket cannot enforce this. However, Bitbucket will always sign every
+request made to a remote app, either directly from its servers, or indirectly
+through the URL of an iframe loaded by a browser.</p>
+<h2 id="limited-api-privileges">Limited API Privileges</h2>
+<p>Bitbucket does not yet support this, but we should be able to limit the amount
+of access remote apps can get on the REST API. This access level scoping
+should be tied to the access token.</p>
+<p>The deployment descriptor should declare level of access it requires and this
+should be presented to the user as part of the existing dialog that is used to
+authorize remote apps by Bitbucket users.</p>
+<p>This can be added to Bitbucket at a later stage.</p>
+<p>In contrast to Atlassian Remote Apps, Bitbucket does not necessarily need to
+place additional restrictions on hot redeployments that require greater API
+access than the previous version of the app.</p>
+<p>Where Atlassian Remote Apps negotiates its level of API access at deploy time,
+Bitbucket Remote Apps relies solely on 3LO and its API access is therefor tied
+to each individual access token. A redeploy of the app that requires greater
+levels of access will not silently impact any user, for the existing access
+tokens' privileges are fixed.</p>
+<p>Instead, for the remote app to actually perform requests with the greater
+level of access, it will have to purge its users' access tokens and force them
+to re-authorize the app through the standard OAuth dance, during which it will
+have to persuade the user to accept this.</p>
+<p>A hot redeploy of a remote app that requires greater API access is therefor safe.</p>
 <h2 id="app-trustworthiness">App Trustworthiness</h2>
                 </div>
             <footer><div id="disqus_thread"/>
