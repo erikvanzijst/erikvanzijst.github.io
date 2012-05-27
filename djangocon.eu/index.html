@@ -149,50 +149,7 @@
           </p>
         </section>
 
-          <!--
-          Normal way to find slowness is profiling, but:
-          expensive, impossible in production
-          dev envs usually lack data-set, clustering and concurrency
-
-          -->
-
         <section>
-          <section>
-            <!--
-            Django-Geordi
-            replay prod request with profiling
-            produces pdf call graph
-            runs outside the worker pool without timeouts (celery)
-
-            Can do staging request live?
-
-            -->
-            <h2>Meet django-geordi</h2>
-
-            <img id="geordi" src="geordilaforge.jpg" />
-            <ul>
-              <li>
-                <p>add "<code>?__geordi__</code>" to any URL<p>
-              </li>
-              <li>
-                <p>replay prod request with profiling</p>
-              </li>
-              <li>
-                <p>produces pdf call graph</p>
-              </li>
-              <li>
-                <p>runs outside the worker pool without timeouts (celeryd)</p>
-              </li>
-            </ul>
-          </section>
-
-          <section>
-            <p><img src="geordi1.png"/></p>
-          </section>
-        </section>
-
-        <section>
-
           <section>
             <!--
             Dogslow
@@ -256,6 +213,48 @@
           </section>
         </section>
 
+        <!--
+        Normal way to find slowness is profiling, but:
+        expensive, impossible in production
+        dev envs usually lack data-set, clustering and concurrency
+
+        -->
+
+        <section>
+          <section>
+            <!--
+            Django-Geordi
+            replay prod request with profiling
+            produces pdf call graph
+            runs outside the worker pool without timeouts (celery)
+
+            Can do staging request live?
+
+            -->
+            <h2>Meet django-geordi</h2>
+
+            <img id="geordi" src="geordilaforge.jpg" />
+            <ul>
+              <li>
+                <p>add "<code>?__geordi__</code>" to any URL<p>
+              </li>
+              <li>
+                <p>replay prod request with profiling</p>
+              </li>
+              <li>
+                <p>produces pdf call graph</p>
+              </li>
+              <li>
+                <p>runs outside the worker pool without timeouts (celeryd)</p>
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <p><img src="geordi1.png"/></p>
+          </section>
+        </section>
+
         <section>
           <section>
             <!--
@@ -268,6 +267,7 @@
 
             -->
             <h2>Interruptingcow</h2>
+            <img id="cow" src="cow.png" />
             <ul>
               <li>
                 <p>raises a <code>RuntimeError</code> in the worker</p>
