@@ -58,31 +58,43 @@
           -->
 
         <section>
-          <!--
-          Discovered conq in top (top 4 procs, 100% cpu, 300MB RAM)
-          conq is ssh login shell, spawns children (git, hg)
-          must not use cpu
-          discovered: conq is python, imports django, uses orm
-          rewrite with plain sql, 60% load reduction across all frontends and
-            much faster ssh response times
-          show load graph
 
-          -->
-          <h2>Wasted Cycles on Bitbucket</h2>
-          <img src="conq.png">
-          <ul class="fragment">
-            <li><em>60%</em> load decrease on all web servers!</li>
-            <li>Much faster response times</li>
-          </ul>
-          <img class="fragment" src="load.png">
+          <section>
+            <!--
+            Discovered conq in top (top 4 procs, 100% cpu, 300MB RAM)
+            conq is ssh login shell, spawns children (git, hg)
+            must not use cpu
+            discovered: conq is python, imports django, uses orm
+            rewrite with plain sql, 60% load reduction across all frontends and
+              much faster ssh response times
+            show load graph
+
+            -->
+            <h2>Wasted Cycles on Bitbucket</h2>
+            <img src="conq.png" style="margin-bottom: 50px;">
+            <ul>
+              <li class="fragment"><p><code>conq</code> is our custom SSH shell</p></li>
+              <li class="fragment"><p><code>conq</code> imports Django ORM and Bitbucket code</p></li>
+              <li class="fragment"><p>takes ~1.41 seconds to start (spawns ~50/second)</p></li>
+            </ul>
+            <p>&nbsp;</p>
+            <p class="fragment">Solution: no dependencies/imports and use plain SQL</p>
+          </section>
+
+          <section>
+            <img src="load.png" style="margin-top: 100px; margin-bottom: 50px;">
+            <ul>
+              <li><p>16 times faster to start up (0.09s vs 1.41s)</p></li>
+              <li><p><em>60%</em> load decrease on all web servers!</p></li>
+            </ul>
+          </section>
         </section>
+        <!--
+        Not all hotspots are bad; it's the ones doing redundant work
+        mpeg encoder will always have a hotspot in DCT transforms
+        in webapps, anything that adds to render time is bad
 
-          <!--
-          Not all hotspots are bad; it's the ones doing redundant work
-          mpeg encoder will always have a hotspot in DCT transforms
-          in webapps, anything that adds to render time is bad
-
-          -->
+        -->
 
         <section>
           <!--
@@ -107,9 +119,6 @@
               <p>slow SQL queries (or too many!)</p>
             </li>
             <li class="fragment">
-              <p>algorithms with exponential complexity</p>
-            </li>
-            <li class="fragment">
               <p>lock contention:</p>
               <ul>
                 <li>between threads</li>
@@ -121,7 +130,10 @@
               <p>excessive IO (disk/network)</p>
             </li>
             <li class="fragment">
-              <p>evil regexps: <code style="margin-left:16px;color:#cc9393">r'^(a+)+$'</code></p>
+              <p>algorithms with exponential complexity</p>
+            </li>
+            <li class="fragment">
+              <p>evil regex: <code style="margin-left:16px;color:#cc9393">r'^(a+)+$'</code></p>
             </li>
           </ul>
           <p>&nbsp;</p>
@@ -176,40 +188,38 @@
           </section>
 
           <section>
-            <p>Email from Dogslow catching a slow hg blame page:</p>
-            <p>&nbsp;</p>
+            <p>Dogslow emailing a slow DAG traversal:</p>
             <pre><code>
-            Subject: Slow Request Watchdog: GET /annotate/521ae2309f0b/adblocklist.txt
-            From: notifications-noreply@atlassian.com
-            To: bitbucket-errors@atlassian.com
-            Date: Tue, 22 May 2012 21:14:30 -0000
+Subject: Slow Request Watchdog: GET http://bitbucket.org/alpine/voncount
+From: notifications-noreply@atlassian.com
+To: notifications-noreply@atlassian.com
+Date: Tue, 29 May 2012 18:36:48 -0000
 
+GET http://bitbucket.org/alpine/voncount
+Thread ID:  140026041280256
+Process ID: 22610
+Started:    29-05-2012 18:36:23 UTC
 
-            GET /annotate/521ae2309f0b/adblocklist.txt
-            Thread ID:  140143111386880
-            Process ID: 19530
-            Started:    22-05-2012 21:14:05 UTC
-
-              File "bitbucket/apps/repo2/views.py", line 792, in annotate
-                blame = file_.blame()
-              File "site-packages/orochi/base.py", line 1208, in wrapper
-                return func(self, *args, **kwargs)
-              File "site-packages/orochi/hg.py", line 606, in blame
-                self._fctx.annotate(linenumber=False)]
-              File "site-packages/mercurial/context.py", line 509, in annotate
-                curr = decorate(f.data(), f)
-              File "site-packages/mercurial/context.py", line 360, in data
-                return self._filelog.read(self._filenode)
-              File "site-packages/mercurial/filelog.py", line 40, in read
-                return t
-              File "site-packages/mercurial/revlog.py", line 904, in revision
-                text = self._checkhash(text, node, rev)
-              File "site-packages/mercurial/revlog.py", line 911, in _checkhash
-                if node != hash(text, p1, p2):
-              File "site-packages/mercurial/revlog.py", line 75, in hash
-                s.update(text)
+File "bitbucket/apps/repo2/views.py", line 119, in repository
+  with repo.history.walk() as walker:
+File "python2.7/contextlib.py", line 17, in __enter__
+  return self.gen.next()
+File "site-packages/orochi/git.py", line 888, in walk
+  with self._revlist() as f:
+File "python2.7/contextlib.py", line 17, in __enter__
+  return self.gen.next()
+File "site-packages/orochi/git.py", line 822, in _revlist
+  stdout, stderr = p.communicate(input=input)
+File "python2.7/subprocess.py", line 754, in communicate
+  return self._communicate(input)
+File "python2.7/subprocess.py", line 1312, in _communicate
+  stdout, stderr = self._communicate_with_poll(input)
+File "python2.7/subprocess.py", line 1366, in _communicate_with_poll
+  ready = poller.poll()
             </code></pre>
 
+            <p class="fragment">Git repo had 6707 loose object files.
+              <code>git-gc</code> reduced DAG traversal from 35 sec to 0.1 sec</p>
           </section>
         </section>
 
@@ -255,7 +265,7 @@
           </section>
         </section>
 
-        <section>
+        <section id="interruptingcow">
           <section>
             <!--
             Interruptingcow
@@ -270,6 +280,20 @@
             <img id="cow" src="cow.png" />
             <ul>
               <li>
+                <p>timebox chunks of code:</p>
+                <pre><code>import re
+from interruptingcow import timeout
+
+try:
+    with timeout(20.0, RuntimeError):
+        # evil regex:
+        re.match(r'(a+)+$',
+            'aaaaaaaaaaaaaaaaaaaaaaaa!')
+except RuntimeError:
+    print 'Interrupted'
+</code></pre>
+              </li>
+              <li>
                 <p>raises a <code>RuntimeError</code> in the worker</p>
               </li>
               <li>
@@ -278,63 +302,36 @@
               <li>
                 <p>ensure proper cleanup (db, lock files)</p>
               </li>
-              <li>
-                <p>uses UNIX signals (SIGALRM, GIL-proof)</p>
-              </li>
             </ul>
           </section>
 
           <section>
-            <!--
-            Timebox operations with Interruptingcow
-            no more regexp of death
-            code sample
-            Used by BB to linkify?
-
-            -->
-            <h2>Timebox expensive operations</h2>
-            <pre><code>
-              from interruptingcow import timeout
-
-              try:
-                  with timeout(20.0, RuntimeError):
-                      while True:
-                          # expensive loop
-                          pass
-              except RuntimeError:
-                  print 'Interrupted'
-            </code></pre>
-            <!-- useful for:
-              - linkification
-              - code highlighting
-            -->
-
-          </section>
-
-          <section>
             <h2>Nested timeouts</h2>
-            <pre><code>
-              from interruptingcow import timeout
+            <pre><code>from interruptingcow import timeout
 
-              class Outer(RuntimeError):
-                  pass
+class Outer(RuntimeError):
+    pass
 
-              class Inner(RuntimeError):
-                  pass
+class Inner(RuntimeError):
+    pass
 
-              try:
-                  with timeout(20.0, Outer):
-                      try:
-                          with timeout(1.0, Inner):
-                              # some expensive operation
-                              try_the_expensive_thing()
-                      except Inner:
-                          do_the_cheap_thing_instead()
+try:
+    with timeout(20.0, Outer):
+        try:
+            with timeout(1.0, Inner):
+                # some expensive operation
+                try_the_expensive_thing()
+        except Inner:
+            do_the_cheap_thing_instead()
 
-              except Outer:
-                  print 'Program as a whole failed to return in 20 secs'
-            </code></pre>
+except Outer:
+    print 'Program as a whole failed to return in 20 secs'
+</code></pre>
           </section>
+          <!-- useful for:
+            - linkification
+            - code highlighting
+          -->
         </section>
 
         <section>

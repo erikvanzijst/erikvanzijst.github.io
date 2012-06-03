@@ -962,10 +962,15 @@ html {
   float: left;
   width: 15%;
 }
-#cow + ul {
+
+#interruptingcow ul {
   display: block;
   margin-top: 30px;
   margin-left: 25%;
+}
+
+#interruptingcow pre {
+  margin-left: 0;
 }
 
 #summary p + p {
@@ -975,4 +980,8 @@ html {
 }
 #summary small em {
   margin-left: 10px;
+}
+
+pre {
+  font-size: 16px !important;
 }
