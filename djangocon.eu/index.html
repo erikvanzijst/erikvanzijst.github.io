@@ -293,15 +293,17 @@ except RuntimeError:
     print 'Interrupted'
 </code></pre>
               </li>
-              <li>
-                <p>raises a <code>RuntimeError</code> in the worker</p>
-              </li>
-              <li>
-                <p>fail in a controlled manner</p>
-              </li>
-              <li>
-                <p>ensure proper cleanup (db, lock files)</p>
-              </li>
+              <div class="fragment">
+                <li>
+                  <p>raises a <code>RuntimeError</code> in the worker</p>
+                </li>
+                <li>
+                  <p>fail in a controlled manner</p>
+                </li>
+                <li>
+                  <p>ensure proper cleanup (db, lock files)</p>
+                </li>
+              </div>
             </ul>
           </section>
 
