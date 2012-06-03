@@ -246,22 +246,25 @@ File "python2.7/subprocess.py", line 1366, in _communicate_with_poll
             <img id="geordi" src="geordilaforge.jpg" />
             <ul>
               <li>
-                <p>add "<code>?__geordi__</code>" to any URL<p>
+                <p>selectively profile individual requests</p>
+              </li>
+              <li class="fragment">
+                <p>add "<code>?__geordi__</code>" to any URL<br/>
+                <small>(accessible to admin users only)</small><p>
               </li>
               <li>
-                <p>replay prod request with profiling</p>
-              </li>
-              <li>
-                <p>produces pdf call graph</p>
-              </li>
-              <li>
-                <p>runs outside the worker pool without timeouts (celeryd)</p>
+                <p class="fragment">produces pdf call graph</p>
               </li>
             </ul>
           </section>
 
           <section>
             <p><img src="geordi1.png"/></p>
+            <ul>
+              <li class="fragment">
+                <p>runs outside the worker pool without timeouts (celeryd)</p>
+              </li>
+            </ul>
           </section>
         </section>
 
