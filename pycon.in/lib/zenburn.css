@@ -7,8 +7,8 @@ based on dark.css by Ivan Sagalaev
 
 pre code {
   display: block; padding: 0.5em;
-  background: #3F3F3F;
-  color: #DCDCDC;
+  background: #f7f7f7;
+  color: #1e1e1e;
 }
 
 pre .keyword,
@@ -18,18 +18,18 @@ pre .django .keyword,
 pre .css .class,
 pre .css .id,
 pre .lisp .title {
-  color: #E3CEAB;
+  color: #e32a00;
 }
 
 pre .django .template_tag,
 pre .django .variable,
 pre .django .filter .argument {
-  color: #DCDCDC;
+  color: #535353;
 }
 
 pre .number,
 pre .date {
-  color: #8CD0D3;
+  color: #1e3fd3;
 }
 
 pre .dos .envvar,
@@ -65,7 +65,7 @@ pre .apache .tag,
 pre .nginx .built_in,
 pre .tex .command,
 pre .input_number {
-    color: #efef8f;
+    color: #ef9200;
 }
 
 pre .dos .winutils,
@@ -93,7 +93,7 @@ pre .attr_selector,
 pre .pseudo,
 pre .apache .cbracket,
 pre .tex .formula {
-  color: #CC9393;
+  color: #cc4141;
 }
 
 pre .shebang,
@@ -103,7 +103,7 @@ pre .java .annotation,
 pre .template_comment,
 pre .pi,
 pre .doctype {
-  color: #7F9F7F;
+  color: #049f10;
 }
 
 pre .xml .css,
