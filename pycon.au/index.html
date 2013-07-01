@@ -72,14 +72,14 @@
 
 
       <section>
-        <h2>Really?</h2>
         <div>
           <img src="bitbucket_performance.png" style="height: 285px;">
         </div>
         <div>
           <img src="github_performance.png" style="height: 170px;">
         </div>
-        <div>123ms vs 139ms &mdash; Averages are misleading</div>
+        <div>123ms vs 139ms &mdash; Averages are misleading<br>
+          <em>the rainbow is not white</em></div>
 
         <aside data-markdown class="notes">
           A quick comparison of the 2 sites' average response time provides no
@@ -97,7 +97,7 @@
 
           It's a number that gives us a false sense of accomplishment but
           which says nothing at all about the usability of the service. It's
-          like saying that the average color of the rainbow is white. now
+          like saying that the average color of the rainbow is white. Now
           while that is technically true, it completely misses the point.
 
           Just ask Stephen.
@@ -114,16 +114,17 @@
             Slow requests have a big impact
           </h3>
         <div>
+          <br>
 
           <ul>
-            <li class="fragment">Frustrate users, timeouts</li>
-            <li class="fragment">Break API clients</li>
-            <li class="fragment">Rants on Twitter</li>
+            <li>Frustrate users, timeouts</li>
+            <li>Break API clients</li>
+            <li>Rants on Twitter</li>
           </ul>
           <div style="text-align: left;">
             <br>
           </div>
-          <div class="fragment" style="text-align: left;">
+          <div style="text-align: left;">
             Fast requests do not, so forget averages, use 98 percentiles
             and focus on the remaining 2% instead.
           </div>
