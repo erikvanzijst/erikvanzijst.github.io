@@ -48,7 +48,7 @@
           </p>
         </div>
         
-        <aside class="notes">
+        <aside data-markdown class="notes">
           G'day everybody, I'm Erik, I work at Atlassian where I'm a dev on
           Bitbucket and I want to talk a bit about the importance of responsive
           code and share some techniques that can help with that.
@@ -61,7 +61,7 @@
           <img
             src="tweet.png" style="font-size: 75.96px; width: 574px;">
         </h2>
-        <aside class="notes">
+        <aside data-markdown class="notes">
           Recently this tweet showed up on my timeline, which took me by
           surprise. This being a tweet, there was of course no context or detail
           whatsoever and while I bet he wasn't lying, it left me guessing what
@@ -80,7 +80,7 @@
         </div>
         <div>123ms vs 139ms &mdash; Averages are misleading</div>
 
-        <aside class="notes">
+        <aside data-markdown class="notes">
           A quick comparison of the 2 sites' average response time provides no
           basis for the big discrepancy.
           
@@ -126,7 +126,7 @@
 
         </div>
 
-        <aside class="notes">
+        <aside data-markdown class="notes">
           However, while problematic requests like these are only a tiny
           fraction of our total traffic, in some ways they have the biggest
           impact on our users.
@@ -183,7 +183,7 @@ class WsgiMiddleware(object):
 
         <p class="fragment">Full tracebacks of hotspots in Sentry</p>
 
-        <aside class="notes">
+        <aside data-markdown class="notes">
           What we did was we scheduled an alarm signal at the start of every request
           and cancel the timer when the request is done.
           This alarm signal tells the operating system's kernel, this goes beyond Python, to interrupt our process 28
@@ -235,7 +235,7 @@ class WsgiMiddleware(object):
 
           <span style="color: rgb(220, 220, 220); font-family: monospace; text-align: left; white-space: pre-wrap;">list(repo.history) </span>&nbsp;does not scale well!
         </div>
-        <aside class="notes">
+        <aside data-markdown class="notes">
           After we installed the signal handler, this is one of the timeouts that started appearing on our Sentry
           dashboard.
             
@@ -279,7 +279,7 @@ class WsgiMiddleware(object):
           <li>Leads to predictable, bounded max runtime</li>
           <li>Fixed upper bound is your new 100 percentile</li>
         </ul>
-        <aside class="notes">
+        <aside data-markdown class="notes">
           At this point all we need to do is refactor every single timeout that shows
           up such that it always runs in constant time.
 
@@ -296,24 +296,24 @@ class WsgiMiddleware(object):
         <div><br></div>
 
         <ul>
+          <li>Legacy/bad code often resists refactoring</li>
           <li class="fragment">Dependencies hard to fix</li>
-          <!--<li class="fragment">Severe lock contention</li>-->
           <li class="fragment">Environmental issues (flushed caches, maintenance)</li>
           <li class="fragment">Unpredictable input<br>
-            <pre><code>re.match(r'^(a+)+$',
+            <pre class="fragment"><code>re.match(r'^(a+)+$',
          'aaaaaaaaaaaaaaaaaaaaaaaaaaaab')</code></pre>
           </li>
         </ul>
 
-        <aside class="notes">
+        <aside data-markdown class="notes">
           Great! Except of course, not everything is that straightforward.
           
-          Sometimes, removing a problematic area in your code requires refactoring of large chunks of
-          other code and cost a great deal of time, especially when it affect interfaces between independent parts
+          Sometimes, removing a bad area in your code requires refactoring of large chunks of
+          other code and cost a great deal of time, especially when it affects interfaces between independent parts
           of your application.
           
           -FRAGMENT-
-          It becomes worse still when the problem is in a library you depend on. If your fixes require
+          It becomes worse still when the problem is in a library you depend on. If your fixes requires
           incompatible changes to its public interface it might be very difficult for your contribution
           to get accepted, more so when your use case is not considered a common one.
           
@@ -324,22 +324,28 @@ class WsgiMiddleware(object):
           Constant runtime might also simply not be in the cards for some libraries. Regular expressions
           for instance can exhibit widely varying runtime performance, which is hard to predict.
           
-          <!---FRAGMENT--->
-          <!--Another, completely different class of problems we've seen is due to lock contention-->
-          <!--at various levels. Transactional-->
-          <!--database updates can hold up other queries and updates and as your site becomes busier, the effects-->
-          <!--of contention become more severe. A request that may have been instant at one point, may be substantially-->
-          <!--slower or even time out at another time.-->
+          -FRAGMENT-
+          To keep things fast, we use quite a bit of caching and we rely quite
+          heavily on memcached. However, we do not version our cache keys,
+          which means that we have to flush all our caches whenever we deploy.
+          As you can imagine, this triggers a short, but sharp spike in load
+          and timeouts.
+
+          Luckily we can fix this by versioning our cache keys, but there are
+          other external events that can have similar effects on load and
+          timeouts.
+
+          Automated infrastructure housekeeping jobs like expensive backups,
+          maintenance or hardware failures can be a source of problems that
+          are hard to fix in code.
           
           -FRAGMENT-
-          We also see a spike in timeouts right after we deploy. One contributing factor here is that since
-          our caches are not versioned, we have to flush our memcached servers after every deploy. This leads
-          to a short but sharp load spike, affecting nearly everything on the site. Automated infrastructure
-          housekeeping jobs like expensive backups, maintenance or hardware failures can have similar effects
-          on performance.
-          
-          Though, possibly the biggest issue for us is processing unpredictable input. Bitbucket tries to
-          be smart about detecting mentions of other users, commit hashes, issue keys and pull requests in
+          Though, possibly the biggest issue for us is processing unpredictable
+          input. One example are people who think it's a
+          good idea to store 30GB worth of Photoshop files in a Git repo.
+          Another example is our use of regular expressions to automatically
+          linkify content.
+          We try to be smart about detecting mentions of other users, commit hashes, issue keys and pull requests in
           commit messages, issue descriptions, pull request comments and virtually any piece of user
           provided content and turn them into hyperlink.
           
@@ -396,7 +402,7 @@ except OuterTimeout:
     print 'Program as a whole failed to return in 20 secs'
 </code></pre>
         </div>
-        <aside class="notes">
+        <aside data-markdown class="notes">
           We decided to follow up on this and changed our alarm signal handler into
           a generic library that can be used to time-box arbitrary chunks of code at any
           level of the stack. We called it Interruptingcow and here's what it looks like.
@@ -448,7 +454,7 @@ with timeout(.1, TimeoutException):
         <li>Safely runs user-provided patterns</li>
         </ul>
         
-        <aside class="notes">
+        <aside data-markdown class="notes">
             Now remember I said that we apply regular expressions to commit messages,
             issue comments, etc to automatically turn usernames, commit hashes and
             other known patterns into hyperlinks. And that we even allow users to
@@ -489,7 +495,7 @@ with timeout(.1, TimeoutException):
             <pre><code>diffstat_quota = interruptingcow.Quota(1.0)</code></pre>
           </li>
         </ul>
-        <aside class="notes">
+        <aside data-markdown class="notes">
           As much of Bitbucket runs on Django we've also written a custom template
           tag for using interrupts straight in Django templates.
           
@@ -520,14 +526,15 @@ with timeout(.1, TimeoutException):
           <li class="fragment">Optimistic approach (EAFP vs LBYL)</li>
           <li class="fragment">Adapts to server load</li>
         </ul>
-        <aside class="notes">
+        <aside data-markdown class="notes">
           I'm not advocating you should wrap everything in timeouts. Not
           every problem lends itself to it. Sometimes there is simply no useful
           degraded or partial representation.
           
           However, the point I want to make is that the best way to guarantee
           responsive web apps is to not have any code with dynamic,
-          unpredictable execution time and there are many ways t accomplish this.
+          unpredictable execution time and there are many ways to help with
+          this.
           
           This is a very hard problem and probably something that many of us,
           myself included, will continue to face throughout our careers as developers. There
@@ -539,16 +546,16 @@ with timeout(.1, TimeoutException):
           
           Always apply pagination.
           
-          When performing IO, use sensible read and write timeouts. When you
-          have to use any kind of locking, whether they be file locks,
-          threading mutexes, or implicit table or rows locks during a database
-          transaction, release them as soon as you're done.
+          <!--When performing IO, use sensible read and write timeouts. When you-->
+          <!--have to use any kind of locking, whether they be file locks,-->
+          <!--threading mutexes, or implicit table or rows locks during a database-->
+          <!--transaction, release them as soon as you're done.-->
           
           Even drop functionality for which the execution time is related to
           external factors you don't control.
           
-          However, interrupt-driven time-boxing can add to this bag of tricks,
-          as it offers some unique properties:
+          However, interrupt-driven time-boxing can add to this tool chest,
+          and it offers some unique properties:
           
           -FRAGMENT-
           It works with existing code and libraries. Stuff for which
@@ -583,7 +590,7 @@ with timeout(.1, TimeoutException):
         </ul>
         <p class="fragment" style="margin-top: 100px;"><em>If it ain't fast, you ain't done</em></p>
         
-        <aside class="notes">
+        <aside data-markdown class="notes">
           That's all I have. And so to summarize;
           
           Page render times often fluctuate as they are almost always dependent
@@ -613,8 +620,6 @@ with timeout(.1, TimeoutException):
       </section>
     </div>
 
-        
-        
       </div>
 
 		<script src="lib/js/head.min.js"></script>
