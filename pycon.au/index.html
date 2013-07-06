@@ -36,7 +36,7 @@
 			<div class="slides">
 
       <section>
-        <h1>Interrupt-driven programming</h1>
+        <h2 style="margin-bottom: 150px;">Interrupt-driven programming</h2>
 
         <div id="erik-van-zijst">
           <p>Erik van Zijst</p>
@@ -438,9 +438,6 @@ except OuterTimeout:
       
       <section>
         <h2>scalable content linkification</h2>
-        <div>
-            <br>
-        </div>
         <pre><code>def replace(doc, pattern, tmpl):
     try:
         m = pattern.search(doc)
@@ -525,7 +522,7 @@ with timeout(.1, TimeoutException):
       </section>
 
       <section>
-        <h2>Opportunities</h2>
+        <h2 style="margin-bottom: 100px;">Unique Aspects</h2>
 
         <ul>
           <li class="fragment">Works with legacy code</li>
@@ -537,29 +534,36 @@ with timeout(.1, TimeoutException):
           I'm not advocating you should wrap everything in timeouts. Not
           every problem lends itself to it. Sometimes there is simply no useful
           degraded or partial representation.
+
+          It works best in situations where you have functionality that works
+          fine most of the time, but for which you simply cannot guarantee
+          scalability 100% of the time and if in those remaining cases it is
+          ok to either omit it, or you can provide an alternative, cheaper
+          rendition of the content.
+
           
-          However, the point I want to make is that the best way to guarantee
-          responsive web apps is to not have any code with dynamic,
-          unpredictable execution time and there are many ways to help with
-          this.
-          
-          This is a very hard problem and probably something that many of us,
-          myself included, will continue to face throughout our careers as developers. There
-          is no one-size-fits-all solution and we should continue to be smart
-          about it.
-          
-          We should still refactor bad code when possible. Don't make redundant
-          database queries.
-          
-          Always apply pagination.
+          <!--However, the point I want to make is that the best way to guarantee-->
+          <!--responsive web apps is to not have any code with dynamic,-->
+          <!--unpredictable execution time and there are many ways to help with-->
+          <!--this.-->
+          <!---->
+          <!--This is a very hard problem and probably something that many of us,-->
+          <!--myself included, will continue to face throughout our careers as developers. There-->
+          <!--is no one-size-fits-all solution and we should continue to be smart-->
+          <!--about it.-->
+          <!---->
+          <!--We should still refactor bad code when possible. Don't make redundant-->
+          <!--database queries.-->
+          <!---->
+          <!--Always apply pagination.-->
           
           <!--When performing IO, use sensible read and write timeouts. When you-->
           <!--have to use any kind of locking, whether they be file locks,-->
           <!--threading mutexes, or implicit table or rows locks during a database-->
           <!--transaction, release them as soon as you're done.-->
           
-          Even drop functionality for which the execution time is related to
-          external factors you don't control.
+          <!--Even drop functionality for which the execution time is related to-->
+          <!--external factors you don't control.-->
           
           However, interrupt-driven time-boxing can add to this tool chest,
           and it offers some unique properties:
@@ -595,7 +599,6 @@ with timeout(.1, TimeoutException):
           <li class="fragment">Refactor, pre-compute, paginate, remove functionality, etc</li>
           <li class="fragment">Time-box expensive code with cheap fallback</li>
         </ul>
-        <p class="fragment" style="margin-top: 100px;"><em>If it ain't fast, you ain't done</em></p>
         
         <aside data-markdown class="notes">
           That's all I have. And so to summarize;
