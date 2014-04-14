@@ -15,22 +15,9 @@ window.onload = function() {
         camera = new BABYLON.ArcRotateCamera("Camera", 1, 0.8, 10, new BABYLON.Vector3(0, 0, 0), scene);
         camera.checkCollisions = true;
         camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
-
-        // axes
-        axis = function(v) {
-            var xmat = new BABYLON.StandardMaterial("d", scene);
-            xmat.diffuseColor = new BABYLON.Color3.FromArray(v.asArray());
-            var x = new BABYLON.Mesh.CreateBox('d', 1, scene);
-            x.material = xmat;
-            x.scaling = v.add(new BABYLON.Vector3(0.001, 0.001, 0.001)).scale(10);
-        };
-//        axis(new BABYLON.Vector3(1, 0, 0));
-//        axis(new BABYLON.Vector3(0, 1, 0));
-//        axis(new BABYLON.Vector3(0, 0, 1));
-
         camera.attachControl(canvas);
 
-        var universe = new BABYLON.Mesh.CreateBox("universe", 800, scene);
+        var universe = new BABYLON.Mesh.CreateBox("universe", 1000, scene);
         universe.material = new BABYLON.StandardMaterial("", scene);
         universe.material.backFaceCulling = false;
         universe.material.diffuseColor = new BABYLON.Color3(0, 0, 0);
@@ -45,13 +32,13 @@ window.onload = function() {
 //        sun.position.x = 190;
 
         var earthframe = new BABYLON.Mesh("earthframe", scene);
-        var earth = new BABYLON.Mesh.CreateSphere("earth", 20, 3, scene);
+        var earth = new BABYLON.Mesh.CreateSphere("earth", 40, 3, scene);
         earth.material = new BABYLON.StandardMaterial("default", scene);
         earth.material.diffuseTexture = new BABYLON.Texture("earth.jpg", scene);
         earth.material.emissiveColor = new BABYLON.Color3(0.3, 0.3, 0.3);
         earth.checkCollisions = true;
         earth.parent = earthframe;
-        earthframe.rotation.z = 0.408;
+        earthframe.rotation.z = 0.408;  // axial tilt
 
         var moonframe = new BABYLON.Mesh('moonframe', scene);
         var moon = new BABYLON.Mesh.CreateSphere("moon", 20, 0.81, scene);
