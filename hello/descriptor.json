@@ -1,0 +1,20 @@
+{
+    "name": "Hello World",
+    "key": "HELLO",
+    "description": "Adds a static, empty page to an account.",
+    "contexts": ["account"],
+    "baseUrl": "https://evzijst.bitbucket.io/hello/",
+    "modules": {
+        "repoPage": [
+            {
+                "url": "hello.html",
+                "location": "org.bitbucket.repository.navigation",
+                "name": {
+                    "value": "Hello World"
+                },
+                "key": "helloRepoPage"
+            }
+        ]
+    },
+    "scopes": ["email"]
+}
