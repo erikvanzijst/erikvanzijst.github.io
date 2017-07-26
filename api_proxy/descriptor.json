@@ -1,0 +1,16 @@
+{
+    "baseUrl": "https://evzijst.bitbucket.io/api-proxy",
+    "name": "Addon API Proxy Example",
+    "key": "ADDON_PROXY_EXAMPLE",
+    "contexts": ["account"],
+    "modules": {
+        "proxy": {
+            "/repository.json" : {
+                "destination": "/repository.json?user={user.username}",
+                "methods": {
+                    "get": {}
+                }
+            }
+        }
+    }
+}
