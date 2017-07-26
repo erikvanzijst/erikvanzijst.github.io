@@ -2,6 +2,7 @@
     "baseUrl": "https://evzijst.bitbucket.io/api-proxy",
     "name": "Addon API Proxy Example",
     "key": "ADDON_PROXY_EXAMPLE",
+    "description": "Example addon that declares an addon proxy rule.",
     "contexts": ["account"],
     "modules": {
         "proxy": {
