@@ -1,5 +1,5 @@
 {
-    "baseUrl": "https://erikvanzijst.github.io",
+    "baseUrl": "https://erikvanzijst.github.io/api_proxy",
     "name": "Addon API Proxy Example",
     "key": "ADDON_PROXY_EXAMPLE",
     "description": "Example addon that declares an addon proxy rule.",
