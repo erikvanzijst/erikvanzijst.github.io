@@ -13,7 +13,7 @@
                     "get": {}
                 }
             },
-            "/repositories/evzijst/dogslow" : {
+            "/repositories/{target_user}/{repository}" : {
                 "destination": "r/dogslow.json?currentUser={user.username}",
                 "methods": {
                     "get": {
