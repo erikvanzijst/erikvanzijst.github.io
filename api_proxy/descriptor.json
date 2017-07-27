@@ -1,5 +1,5 @@
 {
-    "baseUrl": "https://erikvanzijst.github.io/api_proxy",
+    "baseUrl": "https://erikvanzijst.github.io/api_proxy/",
     "name": "Addon API Proxy Example",
     "key": "ADDON_PROXY_EXAMPLE",
     "description": "Example addon that declares an addon proxy rule.",
@@ -8,13 +8,13 @@
     "modules": {
         "proxy": {
             "/users/evzijst": {
-                "destination": "/u/evzijst.json",
+                "destination": "u/evzijst.json",
                 "methods": {
                     "get": {}
                 }
             },
             "/repositories/evzijst/dogslow" : {
-                "destination": "/r/dogslow.json?currentUser={user.username}",
+                "destination": "r/dogslow.json?currentUser={user.username}",
                 "methods": {
                     "get": {
                         "scopes": ["repository"],
