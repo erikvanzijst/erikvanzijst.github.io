@@ -5,11 +5,11 @@ Resources accompanying my talk at [NLUUG 2022](https://www.nluug.nl/activiteiten
 
 ## HDL Tooling
 
-* Verilog: Low-level hardware description level: https://wikipedia.org/wiki/Verilog
-* VHDL: Low-level hardware description level: https://en.wikipedia.org/wiki/VHDL
-* Amaranth (nMigen): Modern HDL based on Python: https://github.com/amaranth-lang/amaranth
-* Chisel: Modern HDL based on Scala: https://www.chisel-lang.org/
-* SpinalHDL: Another modern HDL based on Scala: https://spinalhdl.github.io/SpinalDoc-RTD/master/index.html
+* Verilog: Low-level hardware description level: [https://wikipedia.org/wiki/Verilog](https://wikipedia.org/wiki/Verilog)
+* VHDL: Low-level hardware description level: [https://en.wikipedia.org/wiki/VHDL](https://en.wikipedia.org/wiki/VHDL)
+* Amaranth (nMigen): Modern HDL based on Python: [https://github.com/amaranth-lang/amaranth](https://github.com/amaranth-lang/amaranth)
+* Chisel: Modern HDL based on Scala: [https://www.chisel-lang.org/](https://www.chisel-lang.org/)
+* SpinalHDL: Another modern HDL based on Scala: [https://spinalhdl.github.io/SpinalDoc-RTD/master/index.html](https://spinalhdl.github.io/SpinalDoc-RTD/master/index.html)
 * LiteX: Python-based System on a Chip (SoC) designer: https://github.com/enjoy-digital/litex
 
 ## ASICs
