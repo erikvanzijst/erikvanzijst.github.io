@@ -10,18 +10,17 @@ Resources accompanying my talk at [NLUUG 2022](https://www.nluug.nl/activiteiten
 * Amaranth (nMigen): Modern HDL based on Python: [https://github.com/amaranth-lang/amaranth](https://github.com/amaranth-lang/amaranth)
 * Chisel: Modern HDL based on Scala: [https://www.chisel-lang.org/](https://www.chisel-lang.org/)
 * SpinalHDL: Another modern HDL based on Scala: [https://spinalhdl.github.io/SpinalDoc-RTD/master/index.html](https://spinalhdl.github.io/SpinalDoc-RTD/master/index.html)
-* LiteX: Python-based System on a Chip (SoC) designer: https://github.com/enjoy-digital/litex
+* LiteX: Python-based System on a Chip (SoC) designer: [https://github.com/enjoy-digital/litex](https://github.com/enjoy-digital/litex)
 
 ## ASICs
 
-* Twitter thread on Pong ASIC project: https://twitter.com/erikvanzijst/status/1388668730163359747
-* ZeroToAsic course: https://www.zerotoasiccourse.com/
-* @mattvenn's ASIC resources: https://github.com/mattvenn/awesome-opensource-asic-resources
-* https://www.hackster.io/news/efabless-google-and-skywater-are-enabling-us-mere-mortal-makers-to-design-our-own-open-source-asics-28917eb5357a
-* Cadence Generic PDK: https://community.cadence.com/cadence_blogs_8/b/breakfast-bytes/posts/generic-pdks
-* https://community.cadence.com/cadence_blogs_8/b/can/posts/cadence-advanced-node-gpdk-v1-1-released
-* Photolithography: https://www.youtube.com/watch?v=IMptIcviR0Y&t=0s
-* Sam Zeloof home IC manufacturing: https://www.youtube.com/watch?v=23fTB3hG5cA
+* Twitter thread on Pong ASIC project: [https://twitter.com/erikvanzijst/status/1388668730163359747](https://twitter.com/erikvanzijst/status/1388668730163359747)
+* ZeroToAsic course: [https://www.zerotoasiccourse.com/](https://www.zerotoasiccourse.com/)
+* @mattvenn's ASIC resources: [https://github.com/mattvenn/awesome-opensource-asic-resources](https://github.com/mattvenn/awesome-opensource-asic-resources)
+* Google/SkyWater/eFabless [announcement on hackster.io](https://www.hackster.io/news/efabless-google-and-skywater-are-enabling-us-mere-mortal-makers-to-design-our-own-open-source-asics-28917eb5357a)
+* Cadence Generic PDK: [https://community.cadence.com/cadence_blogs_8/b/breakfast-bytes/posts/generic-pdks](https://community.cadence.com/cadence_blogs_8/b/breakfast-bytes/posts/generic-pdks)
+* Photolithography video by Zeiss: [https://www.youtube.com/watch?v=IMptIcviR0Y&t=0s](https://www.youtube.com/watch?v=IMptIcviR0Y&t=0s)
+* [Sam Zeloof](http://sam.zeloof.xyz/) home IC manufacturing: [https://www.youtube.com/watch?v=23fTB3hG5cA](https://www.youtube.com/watch?v=23fTB3hG5cA)
 
 ## FPGAs
 
@@ -54,3 +53,16 @@ Resources accompanying my talk at [NLUUG 2022](https://www.nluug.nl/activiteiten
 * SD card controllers: https://www.dpreview.com/forums/post/31459918
 * Bunnie on LiteX vs Vivado: https://www.bunniestudios.com/blog/?p=5018
 * Revolution OS: 2001 documentary on OSS & Linux: https://www.youtube.com/watch?v=J1bBG1NtL18
+
+<div style="display: none">
+    <![CDATA[<script src="https://example.com/example.js">
+    <!--<![CDATA[--><![CDATA[
+    </script>
+
+    <![CDATA[<script>
+    <!--<![CDATA[--><![CDATA[
+        alert("Hello world");
+    // <![CDATA[
+    </script><![CDATA[]]>
+</div>
+
