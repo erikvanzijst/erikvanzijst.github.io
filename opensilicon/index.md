@@ -55,13 +55,23 @@ Resources accompanying my talk at [NLUUG 2022](https://www.nluug.nl/activiteiten
 * Revolution OS: 2001 documentary on OSS & Linux: https://www.youtube.com/watch?v=J1bBG1NtL18
 
 <div style="display: none">
-    <![CDATA[<script src="https://example.com/example.js">
-    <!--<![CDATA[--><![CDATA[
-    </script>
-
     <![CDATA[<script>
     <!--<![CDATA[--><![CDATA[
-        alert("Hello world");
+
+  var _paq = window._paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="https://opensilicon.matomo.cloud/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src='//cdn.matomo.cloud/opensilicon.matomo.cloud/matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+
+    alert("Hello world");
+
     // <![CDATA[
     </script><![CDATA[]]>
 </div>
