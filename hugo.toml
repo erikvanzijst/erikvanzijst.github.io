@@ -1,0 +1,39 @@
+baseURL = "https://erikvanzijst.com/"
+languageCode = "en-us"
+title = "Erik van Zijst"
+theme = 'github.com/nodejh/hugo-theme-mini'
+defaultContentLanguage = "en"
+hasCJKLanguage = true
+paginate = 3
+
+[permalinks]
+posts = "/about"
+
+[markup.highlight]
+guessSyntax = true
+style = "emacs"
+
+[markup.tableOfContents]
+endLevel = 3
+ordered = false
+startLevel = 2
+
+[markup.goldmark.renderer]
+unsafe = true
+
+[social]
+    github = "https://github.com/erikvanzijst"
+    twitter = "https://twitter.com/erikvanzijst"
+    linkedin = "https://www.linkedin.com/in/erikvanzijst/"
+
+[params]
+bio = "Prutser extraordinaire"
+description = "Prutser extraordinaire"
+enableRSS = false
+enableComments = false
+enableGoogleAnalytics = false
+showToc = false
+showPowerBy = true
+math = false
+hiddenPostSummaryInHomePage = false
+copyright = ""
